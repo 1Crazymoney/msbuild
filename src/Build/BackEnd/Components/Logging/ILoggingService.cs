@@ -10,6 +10,7 @@ using Microsoft.Build.Shared;
 using LoggerDescription = Microsoft.Build.Logging.LoggerDescription;
 using InvalidProjectFileException = Microsoft.Build.Exceptions.InvalidProjectFileException;
 using TaskItem = Microsoft.Build.Execution.ProjectItemInstance.TaskItem;
+using Microsoft.Build.Framework.Profiler;
 
 namespace Microsoft.Build.BackEnd.Logging
 {
@@ -414,7 +415,12 @@ namespace Microsoft.Build.BackEnd.Logging
         /// <param name="projectEvaluationEventContext">Event context for the project.</param>
         /// <param name="projectFile">Project file being built</param>
         /// <exception cref="InternalErrorException">BuildEventContext is null</exception>
-        void LogProjectEvaluationFinished(BuildEventContext projectEvaluationEventContext, string projectFile);
+        void LogProjectEvaluationFinished(
+            BuildEventContext projectEvaluationEventContext,
+            string projectFile,
+            IEnumerable<DictionaryEntry> properties,
+            IEnumerable<DictionaryEntry> items,
+            ProfilerResult? profilerResult);
 
         /// <summary>
         /// Log that a project has started

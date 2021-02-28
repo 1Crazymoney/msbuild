@@ -189,6 +189,16 @@ namespace Microsoft.Build.BackEnd.Logging
         }
 
         /// <summary>
+        /// Log properties and items on ProjectEvaluationFinishedEventArgs
+        /// instead of ProjectStartedEventArgs.
+        /// </summary>
+        bool IncludeEvaluationPropertiesAndItems
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Should task events include task inputs?
         /// </summary>
         bool IncludeTaskInputs
@@ -418,8 +428,9 @@ namespace Microsoft.Build.BackEnd.Logging
         void LogProjectEvaluationFinished(
             BuildEventContext projectEvaluationEventContext,
             string projectFile,
-            IEnumerable<DictionaryEntry> properties,
-            IEnumerable<DictionaryEntry> items,
+            IEnumerable globalProperties,
+            IEnumerable properties,
+            IEnumerable items,
             ProfilerResult? profilerResult);
 
         /// <summary>

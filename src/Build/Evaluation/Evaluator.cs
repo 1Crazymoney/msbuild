@@ -779,9 +779,18 @@ namespace Microsoft.Build.Evaluation
 
             ErrorUtilities.VerifyThrow(_evaluationProfiler.IsEmpty(), "Evaluation profiler stack is not empty.");
 
-            var properties = GetProperties();
-            var items = GetItems();
-            _evaluationLoggingContext.LogProjectEvaluationFinished(properties, items, _evaluationProfiler.ProfiledResult);
+            IEnumerable globalProperties = null;
+            IEnumerable properties = null;
+            IEnumerable items = null;
+
+            if (this._evaluationLoggingContext.LoggingService.IncludeEvaluationPropertiesAndItems)
+            {
+                globalProperties = _data.GlobalPropertiesDictionary;
+                properties = _data.Properties;
+                items = _data.Items;
+            }
+
+            _evaluationLoggingContext.LogProjectEvaluationFinished(globalProperties, properties, items, _evaluationProfiler.ProfiledResult);
         }
 
         private IEnumerable<DictionaryEntry> GetProperties()

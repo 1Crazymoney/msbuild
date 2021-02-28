@@ -518,8 +518,9 @@ namespace Microsoft.Build.BackEnd.Logging
         public void LogProjectEvaluationFinished(
             BuildEventContext projectEvaluationEventContext,
             string projectFile,
-            IEnumerable<DictionaryEntry> properties,
-            IEnumerable<DictionaryEntry> items,
+            IEnumerable globalProperties,
+            IEnumerable properties,
+            IEnumerable items,
             ProfilerResult? profilerResult)
         {
             lock (_lockObject)
@@ -532,6 +533,7 @@ namespace Microsoft.Build.BackEnd.Logging
                         BuildEventContext = projectEvaluationEventContext,
                         ProjectFile = projectFile,
                         ProfilerResult = profilerResult,
+                        GlobalProperties = globalProperties,
                         Properties = properties,
                         Items = items
                     };

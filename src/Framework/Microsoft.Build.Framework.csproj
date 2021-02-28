@@ -21,6 +21,9 @@
     <Compile Include="..\Shared\Constants.cs">
       <Link>Shared\Constants.cs</Link>
     </Compile>
+    <Compile Include="..\Shared\BinaryReaderExtensions.cs">
+      <Link>Shared\BinaryReaderExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Shared\BinaryWriterExtensions.cs">
       <Link>Shared\BinaryWriterExtensions.cs</Link>
     </Compile>

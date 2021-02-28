@@ -34,10 +34,10 @@ namespace Microsoft.Build.BackEnd.Components.Logging
         /// <summary>
         /// Log that the project has finished
         /// </summary>
-        internal void LogProjectEvaluationFinished(IEnumerable<DictionaryEntry> properties, IEnumerable<DictionaryEntry> items, ProfilerResult? profilerResult)
+        internal void LogProjectEvaluationFinished(IEnumerable globalProperties, IEnumerable properties, IEnumerable items, ProfilerResult? profilerResult)
         {
             ErrorUtilities.VerifyThrow(IsValid, "invalid");
-            LoggingService.LogProjectEvaluationFinished(BuildEventContext, _projectFile, properties, items, profilerResult);
+            LoggingService.LogProjectEvaluationFinished(BuildEventContext, _projectFile, globalProperties, properties, items, profilerResult);
             IsValid = false;
         }
     }

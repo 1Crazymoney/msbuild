@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Build.Framework.Profiler;
+using Microsoft.Build.Shared;
 
 namespace Microsoft.Build.Framework
 {
@@ -43,15 +44,20 @@ namespace Microsoft.Build.Framework
         /// </remarks>
         public ProfilerResult? ProfilerResult { get; set; }
 
-        public IEnumerable<DictionaryEntry> Properties { get; set; }
+        public IEnumerable Properties { get; set; }
 
-        public IEnumerable<DictionaryEntry> Items { get; set; }
+        public IEnumerable Items { get; set; }
+
+        public IEnumerable GlobalProperties { get; set; }
 
         internal override void CreateFromStream(BinaryReader reader, int version)
         {
-            RawTimestamp = reader.ReadTimestamp();
+            timestamp = reader.ReadTimestamp();
             BuildEventContext = reader.ReadOptionalBuildEventContext();
+            ProjectFile = reader.ReadOptionalString();
+            Properties = reader.ReadProperties();
             Items = ReadItems(reader);
+            ProfilerResult = ReadProfilerResult();
         }
 
         private IList ReadItems(BinaryReader reader)
@@ -94,11 +100,23 @@ namespace Microsoft.Build.Framework
 
         internal override void WriteToStream(BinaryWriter writer)
         {
-            writer.WriteTimestamp(RawTimestamp);
+            writer.WriteTimestamp(timestamp);
             writer.WriteOptionalBuildEventContext(BuildEventContext);
-            writer.Write7BitEncodedInt((int)Kind);
-            writer.Write(ItemName);
+            writer.WriteOptionalString(ProjectFile);
+            WriteProperties();
             WriteItems(writer, Items);
+            WriteProfilerResult();
+        }
+
+        private void WriteProperties(BinaryWriter writer)
+        {
+            if (Properties == null)
+            {
+                writer.Write((byte)0);
+                return;
+            }
+
+
         }
 
         private void WriteItems(BinaryWriter writer, IList items)

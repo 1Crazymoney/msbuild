@@ -39,7 +39,7 @@ namespace Microsoft.Build.Framework
         /// <summary>
         /// Timestamp
         /// </summary>
-        protected DateTime timestamp;
+        protected internal DateTime timestamp;
 
         [NonSerialized]
         private DateTime? _localTimestamp;
